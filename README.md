@@ -5,7 +5,6 @@
 ![Java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-brightgreen?style=for-the-badge&logo=spring)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-12+-blue?style=for-the-badge&logo=postgresql)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 **A Full-Stack Job Portal Web Application**
 
