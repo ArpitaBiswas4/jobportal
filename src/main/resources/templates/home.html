@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main>
+  <div class="bg-primary text-white py-5">
+    <div class="container text-center">
+      <h1 class="display-4 mb-3">Find Your Dream Job</h1>
+      <p class="lead mb-4">Connect with top employers and advance your career</p>
+      <div sec:authorize="!isAuthenticated()">
+        <a href="/register" th:href="@{/register}" class="btn btn-light btn-lg me-2">Get Started</a>
+        <a href="/jobs" th:href="@{/jobs}" class="btn btn-outline-light btn-lg">Browse Jobs</a>
+      </div>
+      <div sec:authorize="isAuthenticated()">
+        <a href="/jobs" th:href="@{/jobs}" class="btn btn-light btn-lg">Browse Jobs</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-5">
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-search fa-3x text-primary mb-3"></i>
+            <h4>Search Jobs</h4>
+            <p class="text-muted">Find the perfect job that matches your skills and interests</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+            <h4>Easy Apply</h4>
+            <p class="text-muted">Submit applications with just a few clicks</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body">
+            <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+            <h4>Track Progress</h4>
+            <p class="text-muted">Monitor your application status in real-time</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-light py-5">
+    <div class="container text-center">
+      <h2 class="mb-4">Ready to get started?</h2>
+      <div sec:authorize="!isAuthenticated()">
+        <a href="/register?role=APPLICANT" th:href="@{/register(role='APPLICANT')}" class="btn btn-primary btn-lg me-2">
+          <i class="fas fa-user"></i> I'm Looking for a Job
+        </a>
+        <a href="/register?role=EMPLOYER" th:href="@{/register(role='EMPLOYER')}" class="btn btn-success btn-lg">
+          <i class="fas fa-building"></i> I'm Hiring
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

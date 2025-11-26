@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1><i class="fas fa-tachometer-alt"></i> Employer Dashboard</h1>
+      <p class="text-muted" th:if="${user != null}">
+        Welcome back, <span th:text="${user.fullName}">User</span>!
+      </p>
+    </div>
+    <a href="/employer/jobs/new" th:href="@{/employer/jobs/new}" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Post New Job
+    </a>
+  </div>
+
+  <!-- Success Messages -->
+  <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${param.success}">
+    <i class="fas fa-check-circle"></i> Job posted successfully!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${param.updated}">
+    <i class="fas fa-info-circle"></i> Job updated successfully!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${param.deleted}">
+    <i class="fas fa-trash"></i> Job deleted successfully!
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+
+  <!-- Statistics -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Total Jobs Posted</h5>
+          <h2 class="mb-0" th:text="${totalJobs != null ? totalJobs : 0}">0</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Active Jobs</h5>
+          <h2 class="mb-0" th:text="${activeJobsCount != null ? activeJobsCount : 0}">0</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-info">
+        <div class="card-body">
+          <h5 class="card-title">Closed Jobs</h5>
+          <h2 class="mb-0" th:text="${closedJobsCount != null ? closedJobsCount : 0}">0</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jobs List -->
+  <h3 class="mb-3">Your Job Postings</h3>
+
+  <div th:if="${jobs == null || jobs.isEmpty()}" class="alert alert-info">
+    <i class="fas fa-info-circle"></i> You haven't posted any jobs yet.
+    <a href="/employer/jobs/new" th:href="@{/employer/jobs/new}">Post your first job</a>
+  </div>
+
+  <div class="table-responsive" th:if="${jobs != null && !jobs.isEmpty()}">
+    <table class="table table-hover">
+      <thead class="table-light">
+      <tr>
+        <th>Title</th>
+        <th>Location</th>
+        <th>Job Type</th>
+        <th>Posted Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="job : ${jobs}">
+        <td>
+          <strong th:text="${job.title}">Job Title</strong><br>
+          <small class="text-muted" th:text="${job.company}">Company</small>
+        </td>
+        <td th:text="${job.location}">Location</td>
+        <td>
+          <span class="badge bg-info text-dark" th:text="${job.jobType}">FULL_TIME</span>
+        </td>
+        <td th:text="${job.postedDate != null ? #temporals.format(job.postedDate, 'MMM dd, yyyy') : 'N/A'}">Date</td>
+        <td>
+          <span class="badge bg-success" th:if="${job.status.name() == 'ACTIVE'}">Active</span>
+          <span class="badge bg-secondary" th:if="${job.status.name() == 'CLOSED'}">Closed</span>
+          <span class="badge bg-warning" th:if="${job.status.name() == 'DRAFT'}">Draft</span>
+        </td>
+        <td>
+          <div class="btn-group btn-group-sm" role="group">
+            <a th:href="@{/jobs/view/{id}(id=${job.jobId})}"
+               class="btn btn-outline-primary" title="View">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a th:href="@{/employer/jobs/edit/{id}(id=${job.jobId})}"
+               class="btn btn-outline-warning" title="Edit">
+              <i class="fas fa-edit"></i>
+            </a>
+            <a th:href="@{/employer/jobs/{id}/applications(id=${job.jobId})}"
+               class="btn btn-outline-info" title="Applications">
+              <i class="fas fa-users"></i>
+            </a>
+            <form th:action="@{/employer/jobs/delete/{id}(id=${job.jobId})}"
+                  method="post" style="display:inline;"
+                  onsubmit="return confirm('Are you sure you want to delete this job?');">
+              <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

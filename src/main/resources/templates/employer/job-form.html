@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-4">
+            <i class="fas fa-briefcase"></i>
+            <span th:text="${jobId != null} ? 'Edit Job' : 'Post New Job'"></span>
+          </h2>
+
+          <div th:if="${error}" class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+          </div>
+
+          <form th:action="${jobId != null} ? @{/employer/jobs/edit/{id}(id=${jobId})} : @{/employer/jobs/new}"
+                th:object="${jobRequest}" method="post">
+
+            <div class="mb-3">
+              <label for="title" class="form-label">Job Title *</label>
+              <input type="text" class="form-control" id="title"
+                     th:field="*{title}" required>
+              <div class="text-danger" th:if="${#fields.hasErrors('title')}"
+                   th:errors="*{title}"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="company" class="form-label">Company Name *</label>
+              <input type="text" class="form-control" id="company"
+                     th:field="*{company}" required>
+              <div class="text-danger" th:if="${#fields.hasErrors('company')}"
+                   th:errors="*{company}"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="location" class="form-label">Location *</label>
+                <input type="text" class="form-control" id="location"
+                       th:field="*{location}" placeholder="e.g., New York, NY" required>
+                <div class="text-danger" th:if="${#fields.hasErrors('location')}"
+                     th:errors="*{location}"></div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="jobType" class="form-label">Job Type *</label>
+                <select class="form-select" id="jobType" th:field="*{jobType}" required>
+                  <option value="">Select Job Type</option>
+                  <option th:each="type : ${jobTypes}"
+                          th:value="${type}"
+                          th:text="${type}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('jobType')}"
+                     th:errors="*{jobType}"></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="salaryMin" class="form-label">Minimum Salary ($)</label>
+                <input type="number" class="form-control" id="salaryMin"
+                       th:field="*{salaryMin}" placeholder="50000">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="salaryMax" class="form-label">Maximum Salary ($)</label>
+                <input type="number" class="form-control" id="salaryMax"
+                       th:field="*{salaryMax}" placeholder="80000">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Job Description *</label>
+              <textarea class="form-control" id="description"
+                        th:field="*{description}" rows="6" required></textarea>
+              <div class="text-danger" th:if="${#fields.hasErrors('description')}"
+                   th:errors="*{description}"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="requirements" class="form-label">Requirements</label>
+              <textarea class="form-control" id="requirements"
+                        th:field="*{requirements}" rows="4"
+                        placeholder="List the key requirements and qualifications..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="closingDate" class="form-label">Application Closing Date</label>
+              <input type="datetime-local" class="form-control" id="closingDate"
+                     th:field="*{closingDate}">
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="/employer/dashboard" th:href="@{/employer/dashboard}"
+                 class="btn btn-outline-secondary me-md-2">
+                <i class="fas fa-times"></i> Cancel
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i>
+                <span th:text="${jobId != null} ? 'Update Job' : 'Post Job'"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

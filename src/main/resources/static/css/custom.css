@@ -1,0 +1,99 @@
+/* Custom Styles for Job Portal */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar-brand {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.job-card {
+    border-left: 4px solid var(--primary-color);
+}
+
+.application-card {
+    border-left: 4px solid var(--info-color);
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+    font-size: 0.85rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Status Colors */
+.status-pending {
+    color: var(--warning-color);
+}
+
+.status-reviewed {
+    color: var(--primary-color);
+}
+
+.status-shortlisted {
+    color: var(--info-color);
+}
+
+.status-accepted {
+    color: var(--success-color);
+}
+
+.status-rejected {
+    color: var(--danger-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .btn-group-vertical {
+        width: 100%;
+    }
+}
+
+/* Loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Sticky footer */
+footer {
+    margin-top: auto;
+}

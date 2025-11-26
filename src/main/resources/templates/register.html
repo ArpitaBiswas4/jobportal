@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="fas fa-user-plus"></i> Register
+                    </h2>
+
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                        <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+                    </div>
+
+                    <form th:action="@{/register}" th:object="${registerRequest}" method="post">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName"
+                                   th:field="*{fullName}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('fullName')}"
+                                 th:errors="*{fullName}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email"
+                                   th:field="*{email}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('email')}"
+                                 th:errors="*{email}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone"
+                                   th:field="*{phone}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password"
+                                   th:field="*{password}" required>
+                            <div class="text-danger" th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">I am a:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role"
+                                       id="applicant" value="APPLICANT" th:field="*{role}" required>
+                                <label class="form-check-label" for="applicant">
+                                    <i class="fas fa-user"></i> Job Seeker (Applicant)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="role"
+                                       id="employer" value="EMPLOYER" th:field="*{role}">
+                                <label class="form-check-label" for="employer">
+                                    <i class="fas fa-building"></i> Employer
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="mb-0">Already have an account?
+                            <a href="/login" th:href="@{/login}">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

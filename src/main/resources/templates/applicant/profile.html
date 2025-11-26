@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+<nav th:replace="~{fragments/header :: navbar}"></nav>
+
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="mb-3">
+        <a href="/applicant/dashboard" th:href="@{/applicant/dashboard}"
+           class="btn btn-outline-secondary">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+      </div>
+
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <h2 class="card-title mb-4">
+            <i class="fas fa-user-edit"></i> My Profile
+          </h2>
+
+          <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show">
+            <i class="fas fa-check-circle"></i> Profile updated successfully!
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+
+          <div th:if="${error}" class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+          </div>
+
+          <!-- User Info (Read-only) -->
+          <div class="mb-4">
+            <h5><i class="fas fa-user"></i> Account Information</h5>
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <strong>Name:</strong> <span th:text="${user.fullName}"></span>
+              </div>
+              <div class="col-md-6 mb-2">
+                <strong>Email:</strong> <span th:text="${user.email}"></span>
+              </div>
+              <div class="col-md-6 mb-2" th:if="${user.phone != null}">
+                <strong>Phone:</strong> <span th:text="${user.phone}"></span>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- Profile Form -->
+          <form th:action="@{/applicant/profile}" th:object="${profile}" method="post"
+                enctype="multipart/form-data">
+
+            <h5 class="mb-3"><i class="fas fa-briefcase"></i> Professional Information</h5>
+
+            <div class="mb-3">
+              <label for="skills" class="form-label">Skills</label>
+              <textarea class="form-control" id="skills"
+                        th:field="*{skills}" rows="3"
+                        placeholder="e.g., Java, Spring Boot, Python, SQL, etc."></textarea>
+              <small class="text-muted">Separate skills with commas</small>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="experience" class="form-label">Years of Experience</label>
+                <input type="number" class="form-control" id="experience"
+                       th:field="*{experience}" min="0" max="50">
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="education" class="form-label">Education</label>
+                <input type="text" class="form-control" id="education"
+                       th:field="*{education}"
+                       placeholder="e.g., B.S. Computer Science">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="linkedin" class="form-label">LinkedIn Profile</label>
+              <input type="url" class="form-control" id="linkedin"
+                     th:field="*{linkedin}"
+                     placeholder="https://linkedin.com/in/yourprofile">
+            </div>
+
+            <div class="mb-3">
+              <label for="portfolio" class="form-label">Portfolio/Website</label>
+              <input type="url" class="form-control" id="portfolio"
+                     th:field="*{portfolio}"
+                     placeholder="https://yourportfolio.com">
+            </div>
+
+            <hr>
+
+            <h5 class="mb-3"><i class="fas fa-file-pdf"></i> Resume</h5>
+
+            <div class="mb-3" th:if="${profile.resumeUrl != null}">
+              <div class="alert alert-info">
+                <i class="fas fa-file-pdf"></i> Resume on file:
+                <a th:href="${profile.resumeUrl}" target="_blank">View Resume</a>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="resume" class="form-label">Upload New Resume (PDF only)</label>
+              <input type="file" class="form-control" id="resume"
+                     name="resume" accept=".pdf">
+              <small class="text-muted">Max file size: 5MB</small>
+            </div>
+
+            <hr>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="/applicant/dashboard" th:href="@{/applicant/dashboard}"
+                 class="btn btn-outline-secondary me-md-2">
+                <i class="fas fa-times"></i> Cancel
+              </a>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Profile
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
